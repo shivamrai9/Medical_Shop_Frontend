@@ -1,5 +1,5 @@
 import React from 'react'
-import banner from '../assets/banner1.jpg'
+import banner from '../assets/banner.jpg'
 import bannerMobile from '../assets/banner-mobile.jpg'
 import { useSelector } from 'react-redux'
 import { valideURLConvert } from '../utils/valideURLConvert'
@@ -37,11 +37,11 @@ const Home = () => {
 
   return (
    <section className='bg-white'>
-      <div className='container mx-auto'>
-          <div className={`w-full h-full min-h-48 bg-blue-100 rounded ${!banner && "animate-pulse my-2" } `}>
+      <div className='container mx-auto border border-red-700'>
+          <div className={`w-full h-[200px] min-h-48 bg-blue-100 rounded ${!banner && "animate-pulse my-2" } `}>
               <img
                 src={banner}
-                className='w-full h-full hidden lg:block'
+                className='w-full h-full hidden lg:block object-cover'
                 alt='banner' 
               />
               <img

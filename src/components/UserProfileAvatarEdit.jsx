@@ -55,7 +55,7 @@ const UserProfileAvatarEdit = ({close}) => {
                         <img 
                         alt={user.name}
                         src={user.avatar}
-                        className='w-full h-full'
+                        className='w-full h-full object-cover'
                         />
                     ) : (
                         <FaRegUserCircle size={65}/>
