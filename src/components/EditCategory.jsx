@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError';
 
 const EditCategory = ({close, fetchData,data : CategoryData,allCategories}) => {
+
     const [data, setData] = useState({
       name: CategoryData.name,
       image: CategoryData.image,
@@ -26,7 +27,7 @@ const EditCategory = ({close, fetchData,data : CategoryData,allCategories}) => {
     }
     const handleSubmit = async(e)=>{
         console.log(data)
-        console.log(allCategories)
+        // console.log(allCategories)
         e.preventDefault()
 
 
@@ -67,6 +68,9 @@ const EditCategory = ({close, fetchData,data : CategoryData,allCategories}) => {
             }
         })
     }
+
+    console.log("category data",data)
+    console.log("category data",CategoryData)
   return (
     <section className="fixed top-0 bottom-0 left-0 right-0 p-4 bg-neutral-800 bg-opacity-60 flex items-center justify-center">
       <div className="bg-white max-w-4xl w-full p-4 rounded">
@@ -94,7 +98,8 @@ const EditCategory = ({close, fetchData,data : CategoryData,allCategories}) => {
             <select
               id="parentCategory"
               name="parentCategory"
-              value={data.parentCategory}
+              // value={data.parentCategory}
+              value={CategoryData.parentCategory._id || ""}
               onChange={handleOnChange}
               className="bg-blue-50 p-2 border border-blue-100 focus-within:border-primary-200 outline-none rounded"
               disabled={loading}

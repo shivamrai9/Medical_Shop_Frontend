@@ -1,153 +1,3 @@
-// import React, { useEffect, useState } from 'react'
-// import UploadCategoryModel from '../components/UploadCategoryModel'
-// import Loading from '../components/Loading'
-// import NoData from '../components/NoData'
-// import Axios from '../utils/Axios'
-// import SummaryApi from '../common/SummaryApi'
-// import EditCategory from '../components/EditCategory'
-// import CofirmBox from '../components/CofirmBox'
-// import toast from 'react-hot-toast'
-// import AxiosToastError from '../utils/AxiosToastError'
-// import { useSelector } from 'react-redux'
-
-// const CategoryPage = () => {
-//     const [openUploadCategory,setOpenUploadCategory] = useState(false)
-//     const [loading,setLoading] = useState(false)
-//     const [categoryData,setCategoryData] = useState([])
-//     const [openEdit,setOpenEdit] = useState(false)
-//     const [editData,setEditData] = useState({
-//         name : "",
-//         image : "",
-//     })
-//     const [openConfimBoxDelete,setOpenConfirmBoxDelete] = useState(false)
-//     const [deleteCategory,setDeleteCategory] = useState({
-//         _id : ""
-//     })
-//     // const allCategory = useSelector(state => state.product.allCategory)
-
-
-//     // useEffect(()=>{
-//     //     setCategoryData(allCategory)
-//     // },[allCategory])
-    
-//     const fetchCategory = async()=>{
-//         try {
-//             setLoading(true)
-//             const response = await Axios({
-//                 ...SummaryApi.getCategory
-//             })
-//             const { data : responseData } = response
-
-//             if(responseData.success){
-//                 setCategoryData(responseData.data)
-//             }
-//         } catch (error) {
-            
-//         }finally{
-//             setLoading(false)
-//         }
-//     }
-
-//     useEffect(()=>{
-//         fetchCategory()
-//     },[])
-
-//     const handleDeleteCategory = async()=>{
-//         try {
-//             const response = await Axios({
-//                 ...SummaryApi.deleteCategory,
-//                 data : deleteCategory
-//             })
-
-//             const { data : responseData } = response
-
-//             if(responseData.success){
-//                 toast.success(responseData.message)
-//                 fetchCategory()
-//                 setOpenConfirmBoxDelete(false)
-//             }
-//         } catch (error) {
-//             AxiosToastError(error)
-//         }
-//     }
-
-//   return (
-//     <section className="">
-//       <div className="p-2   bg-white shadow-md flex items-center justify-between">
-//         <h2 className="font-semibold">Category</h2>
-//         <button
-//           onClick={() => setOpenUploadCategory(true)}
-//           className="text-sm border border-primary-200 hover:bg-primary-200 px-3 py-1 rounded"
-//         >
-//           Add Category
-//         </button>
-//       </div>
-//       {!categoryData[0] && !loading && <NoData />}
-
-//       <div className="p-4 grid  grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
-//         {categoryData.map((category, index) => {
-//           return (
-//             <div className="w-32 h-56 rounded shadow-md" key={category._id}>
-//               <img
-//                 alt={category.name}
-//                 src={category.image}
-//                 className="w-full object-scale-down"
-//               />
-//               <div className="items-center h-9 flex gap-2">
-//                 <button
-//                   onClick={() => {
-//                     setOpenEdit(true);
-//                     setEditData(category);
-//                   }}
-//                   className="flex-1 bg-green-100 hover:bg-green-200 text-green-600 font-medium py-1 rounded"
-//                 >
-//                   Edit
-//                 </button>
-//                 <button
-//                   onClick={() => {
-//                     setOpenConfirmBoxDelete(true);
-//                     setDeleteCategory(category);
-//                   }}
-//                   className="flex-1 bg-red-100 hover:bg-red-200 text-red-600 font-medium py-1 rounded"
-//                 >
-//                   Delete
-//                 </button>
-//               </div>
-//             </div>
-//           );
-//         })}
-//       </div>
-
-//       {loading && <Loading />}
-
-//       {openUploadCategory && (
-//         <UploadCategoryModel
-//           fetchData={fetchCategory}
-//           close={() => setOpenUploadCategory(false)}
-//         />
-//       )}
-
-//       {openEdit && (
-//         <EditCategory
-//           data={editData}
-//           allCategories={categoryData}
-//           close={() => setOpenEdit(false)}
-//           fetchData={fetchCategory}
-//         />
-//       )}
-
-//       {openConfimBoxDelete && (
-//         <CofirmBox
-//           close={() => setOpenConfirmBoxDelete(false)}
-//           cancel={() => setOpenConfirmBoxDelete(false)}
-//           confirm={handleDeleteCategory}
-//         />
-//       )}
-//     </section>
-//   );
-// }
-
-// export default CategoryPage
 import React, { useEffect, useState } from "react";
 import UploadCategoryModel from "../components/UploadCategoryModel";
 import Loading from "../components/Loading";
@@ -158,60 +8,73 @@ import EditCategory from "../components/EditCategory";
 import CofirmBox from "../components/CofirmBox";
 import toast from "react-hot-toast";
 import AxiosToastError from "../utils/AxiosToastError";
-import { useSelector } from "react-redux";
 
 const CategoryPage = () => {
-  const [openUploadCategory, setOpenUploadCategory] = useState(false);
+  const [parentCategories, setParentCategories] = useState([]);
+  const [expandedParentId, setExpandedParentId] = useState(null);
+  const [subCategoriesMap, setSubCategoriesMap] = useState({});
+  const [loadingSubcategories, setLoadingSubcategories] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [categoryData, setCategoryData] = useState([]);
+  const [openUploadCategory, setOpenUploadCategory] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [editData, setEditData] = useState({
-    name: "",
-    image: "",
-  });
-  const [openConfimBoxDelete, setOpenConfirmBoxDelete] = useState(false);
-  const [deleteCategory, setDeleteCategory] = useState({
-    _id: "",
-  });
-  // const allCategory = useSelector(state => state.product.allCategory)
+  const [editData, setEditData] = useState({ name: "", image: "" });
+  const [openConfirmBoxDelete, setOpenConfirmBoxDelete] = useState(false);
+  const [deleteCategory, setDeleteCategory] = useState({ _id: "" });
 
-  // useEffect(()=>{
-  //     setCategoryData(allCategory)
-  // },[allCategory])
+  useEffect(() => {
+    fetchParentCategories();
+  }, []);
 
-  const fetchCategory = async () => {
+  const fetchParentCategories = async () => {
     try {
-      setLoading(true);
-      const response = await Axios({
-        ...SummaryApi.getCategory,
-      });
-      const { data: responseData } = response;
+      setLoadingSubcategories(true);
+      const { data: responseData } = await Axios(SummaryApi.getCategory);
 
       if (responseData.success) {
-        setCategoryData(responseData.data);
+        setParentCategories(responseData.data);
       }
     } catch (error) {
+      AxiosToastError(error);
     } finally {
-      setLoading(false);
+      setLoadingSubcategories(false);
     }
   };
 
-  useEffect(() => {
-    fetchCategory();
-  }, []);
+  const fetchSubCategories = async (parentId) => {
+    try {
+      setLoadingSubcategories(true);
+      const { data: res } = await Axios(SummaryApi.getSubCategories(parentId));
+
+      if (res.success) {
+        setSubCategoriesMap((prev) => ({
+          ...prev,
+          [parentId]: res.data,
+        }));
+      }
+    } catch (err) {
+      AxiosToastError(err);
+    } finally {
+      setLoadingSubcategories(false);
+    }
+  };
+
+  const handleAccordionToggle = (parentId) => {
+    const isExpanded = expandedParentId === parentId;
+    setExpandedParentId(isExpanded ? null : parentId);
+
+    if (!isExpanded && !subCategoriesMap[parentId]) {
+      fetchSubCategories(parentId);
+    }
+  };
 
   const handleDeleteCategory = async () => {
     try {
-      const response = await Axios({
-        ...SummaryApi.deleteCategory,
-        data: deleteCategory,
-      });
-
-      const { data: responseData } = response;
+      const { data: responseData } = await Axios(
+        SummaryApi.deleteCategory(deleteCategory._id));
 
       if (responseData.success) {
         toast.success(responseData.message);
-        fetchCategory();
+        fetchParentCategories();
         setOpenConfirmBoxDelete(false);
       }
     } catch (error) {
@@ -220,71 +83,131 @@ const CategoryPage = () => {
   };
 
   return (
-    <section className="">
-      <div className="p-2   bg-white shadow-md flex items-center justify-between">
-        <h2 className="font-semibold">Category</h2>
+    <section>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold">Manage Categories</h2>
         <button
           onClick={() => setOpenUploadCategory(true)}
-          className="text-sm border border-primary-200 hover:bg-primary-200 px-3 py-1 rounded"
+          className="px-3 py-1 bg-blue-600 text-white rounded text-sm"
         >
-          Add Category
+          + Add Category
         </button>
       </div>
-      {!categoryData[0] && !loading && <NoData />}
 
-      <div className="p-4 grid  grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
-        {categoryData.map((category, index) => {
-          return (
-            <div className="w-32 h-56 rounded shadow-md" key={category._id}>
+      {parentCategories.map((parent) => (
+        <div key={parent._id} className="mb-4 border rounded shadow">
+          <div
+            className="flex justify-between items-center bg-gray-100 px-4 py-2 cursor-pointer"
+            onClick={() => handleAccordionToggle(parent._id)}
+          >
+            <div className="flex items-center gap-3">
               <img
-                alt={category.name}
-                src={category.image}
-                className="w-full object-scale-down"
+                src={parent.image}
+                alt={parent.name}
+                className="w-10 h-10 object-cover rounded"
               />
-              <div className="items-center h-9 flex gap-2">
-                <button
-                  onClick={() => {
-                    setOpenEdit(true);
-                    setEditData(category);
-                  }}
-                  className="flex-1 bg-green-100 hover:bg-green-200 text-green-600 font-medium py-1 rounded"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => {
-                    setOpenConfirmBoxDelete(true);
-                    setDeleteCategory(category);
-                  }}
-                  className="flex-1 bg-red-100 hover:bg-red-200 text-red-600 font-medium py-1 rounded"
-                >
-                  Delete
-                </button>
-              </div>
+              <span className="font-semibold">{parent.name}</span>
             </div>
-          );
-        })}
-      </div>
+            <div className="space-x-2">
+              <button
+                onClick={() => {
+                  setEditData(parent);
+                  setOpenEdit(true);
+                }}
+                className="text-sm text-blue-600"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => {
+                  setDeleteCategory({ _id: parent._id });
+                  setOpenConfirmBoxDelete(true);
+                }}
+                className="text-sm text-red-600"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+
+          {expandedParentId === parent._id && (
+            <div className="bg-white px-4 py-3">
+              <h4 className="text-sm font-medium mb-2 text-gray-700">
+                Subcategories:
+              </h4>
+
+              {loadingSubcategories ? (
+                <p className="text-gray-500 text-sm">Loading...</p>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {subCategoriesMap[parent._id]?.map((sub) => (
+                    <div
+                      key={sub._id}
+                      className="p-2 border rounded shadow-sm flex flex-col items-center text-center"
+                    >
+                      <img
+                        src={sub.image}
+                        alt={sub.name}
+                        className="w-16 h-16 object-cover rounded"
+                      />
+                      <p className="mt-2 font-medium">{sub.name}</p>
+                      <div className="space-x-1 mt-2">
+                        <button
+                          onClick={() => {
+                            setEditData(sub);
+                            setOpenEdit(true);
+                          }}
+                          className="text-xs text-blue-600"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => {
+                            setDeleteCategory({ _id: sub._id });
+                            setOpenConfirmBoxDelete(true);
+                          }}
+                          className="text-xs text-red-500"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <button
+                className="mt-3 text-sm text-blue-600"
+                onClick={() => {
+                  setOpenUploadCategory(true);
+                }}
+              >
+                + Add Subcategory
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
 
       {loading && <Loading />}
 
       {openUploadCategory && (
         <UploadCategoryModel
-          fetchData={fetchCategory}
+          fetchData={fetchParentCategories}
           close={() => setOpenUploadCategory(false)}
         />
       )}
 
       {openEdit && (
         <EditCategory
-          data={editData}
-          allCategories={categoryData}
           close={() => setOpenEdit(false)}
-          fetchData={fetchCategory}
+          allCategories={parentCategories}
+          data={editData}
+          fetchData={fetchParentCategories}
         />
       )}
 
-      {openConfimBoxDelete && (
+      {openConfirmBoxDelete && (
         <CofirmBox
           close={() => setOpenConfirmBoxDelete(false)}
           cancel={() => setOpenConfirmBoxDelete(false)}

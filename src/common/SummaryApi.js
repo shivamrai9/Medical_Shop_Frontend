@@ -58,7 +58,7 @@ const SummaryApi = {
     method: "put",
   }),
   deleteCategory: (id) => ({
-    url: `/api/category/delete${id}`,
+    url: `/api/category/delete/${id}`,
     method: "delete",
   }),
   createSubCategory: {
@@ -67,8 +67,12 @@ const SummaryApi = {
   },
   getSubCategory: {
     url: "api/category",
-    method: "GET"
+    method: "GET",
   },
+  getSubCategories: (parentId) => ({
+    url: `/api/category/children/${parentId}`,
+    method: "get",
+  }),
   updateSubCategory: {
     url: "/api/subcategory/update",
     method: "put",

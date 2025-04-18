@@ -37,7 +37,7 @@ const Register = () => {
     const handleSubmit = async(e)=>{
         e.preventDefault()
 
-    console.log(data, "data");
+    
         if(data.password !== data.confirmPassword){
             toast.error(
                 "password and confirm password must be same"
@@ -56,6 +56,7 @@ const Register = () => {
             }
 
             if(response.data.success){
+              console.log(response.data);
                 toast.success(response.data.message)
                 setData({
                     name : "",
@@ -64,7 +65,8 @@ const Register = () => {
                     mobile : "",
                     confirmPassword : ""
                 })
-                navigate("/login")
+                // navigate("/login")
+                console.log(data, "data");
             }
 
         } catch (error) {
