@@ -73,16 +73,23 @@ const EditCategory = ({close, fetchData,data : CategoryData,allCategories}) => {
     console.log("category data",CategoryData)
   return (
     <section className="fixed top-0 bottom-0 left-0 right-0 p-4 bg-neutral-800 bg-opacity-60 flex items-center justify-center">
-      <div className="bg-white max-w-4xl w-full p-4 rounded">
+      <div className="bg-white dark:bg-gray-800 max-w-4xl w-full p-4 rounded">
         <div className="flex items-center justify-between">
-          <h1 className="font-semibold">Update Category</h1>
-          <button onClick={close} className="w-fit block ml-auto">
+          <h1 className="font-semibold text-black dark:text-white">
+            Update Category
+          </h1>
+          <button
+            onClick={close}
+            className="w-fit block ml-auto text-black dark:text-white"
+          >
             <IoClose size={25} />
           </button>
         </div>
         <form className="my-3 grid gap-2" onSubmit={handleSubmit}>
           <div className="grid gap-1">
-            <label id="categoryName">Name</label>
+            <label id="categoryName" className="text-black dark:text-white">
+              Name
+            </label>
             <input
               type="text"
               id="categoryName"
@@ -90,18 +97,22 @@ const EditCategory = ({close, fetchData,data : CategoryData,allCategories}) => {
               value={data.name}
               name="name"
               onChange={handleOnChange}
-              className="bg-blue-50 p-2 border border-blue-100 focus-within:border-primary-200 outline-none rounded"
+              className="bg-blue-50 dark:bg-gray-700 text-black dark:text-white p-2 border border-blue-100 dark:border-gray-600 focus-within:border-primary-200 outline-none rounded"
             />
           </div>
           <div className="grid gap-1">
-            <label htmlFor="parentCategory">Parent Category (optional)</label>
+            <label
+              htmlFor="parentCategory"
+              className="text-black dark:text-white"
+            >
+              Parent Category (optional)
+            </label>
             <select
               id="parentCategory"
               name="parentCategory"
-              // value={data.parentCategory}
               value={CategoryData.parentCategory._id || ""}
               onChange={handleOnChange}
-              className="bg-blue-50 p-2 border border-blue-100 focus-within:border-primary-200 outline-none rounded"
+              className="bg-blue-50 dark:bg-gray-700 text-black dark:text-white p-2 border border-blue-100 dark:border-gray-600 focus-within:border-primary-200 outline-none rounded"
               disabled={loading}
             >
               <option value="">-- No Parent --</option>
@@ -114,9 +125,9 @@ const EditCategory = ({close, fetchData,data : CategoryData,allCategories}) => {
           </div>
 
           <div className="grid gap-1">
-            <p>Image</p>
+            <p className="text-black dark:text-white">Image</p>
             <div className="flex gap-4 flex-col lg:flex-row items-center">
-              <div className="border bg-blue-50 h-36 w-full lg:w-36 flex items-center justify-center rounded">
+              <div className="border bg-blue-50 dark:bg-gray-700 h-36 w-full lg:w-36 flex items-center justify-center rounded">
                 {data.image ? (
                   <img
                     alt="category"
@@ -124,19 +135,21 @@ const EditCategory = ({close, fetchData,data : CategoryData,allCategories}) => {
                     className="w-full h-full object-scale-down"
                   />
                 ) : (
-                  <p className="text-sm text-neutral-500">No Image</p>
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                    No Image
+                  </p>
                 )}
               </div>
               <label htmlFor="uploadCategoryImage">
                 <div
                   className={`
-                        ${
-                          !data.name
-                            ? "bg-gray-300"
-                            : "border-primary-200 hover:bg-primary-100"
-                        }  
-                            px-4 py-2 rounded cursor-pointer border font-medium
-                        `}
+                ${
+                  !data.name
+                    ? "bg-gray-300 dark:bg-gray-600"
+                    : "border-primary-200 dark:border-primary-600 hover:bg-primary-100 dark:hover:bg-primary-500"
+                }
+                px-4 py-2 rounded cursor-pointer border font-medium
+              `}
                 >
                   {loading ? "Loading..." : "Upload Image"}
                 </div>
@@ -154,14 +167,14 @@ const EditCategory = ({close, fetchData,data : CategoryData,allCategories}) => {
 
           <button
             className={`
-                ${
-                  data.name && data.image
-                    ? "bg-primary-200 hover:bg-primary-100"
-                    : "bg-gray-300 "
-                }
-                py-2    
-                font-semibold 
-                `}
+          ${
+            data.name && data.image
+              ? "bg-primary-200 hover:bg-primary-100 dark:bg-primary-600 dark:hover:bg-primary-500"
+              : "bg-gray-300 dark:bg-gray-600"
+          }
+          py-2    
+          font-semibold 
+        `}
           >
             Update Category
           </button>

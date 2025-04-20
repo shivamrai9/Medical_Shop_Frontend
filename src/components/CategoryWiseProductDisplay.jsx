@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import { valideURLConvert } from '../utils/valideURLConvert'
 
 const CategoryWiseProductDisplay = ({ id, name }) => {
+    console.log(id, name)
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const containerRef = useRef()
@@ -25,6 +26,7 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
                     id: id
                 }
             })
+            
 
             const { data: responseData } = response
 
@@ -77,7 +79,7 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
                 {/* <Link  to={redirectURL} className='text-green-600 hover:text-green-400'>See All</Link> */}
             </div>
             <div className='relative flex items-center '>
-                <div className=' flex gap-4 md:gap-6 lg:gap-8 container mx-auto px-4 overflow-x-scroll scrollbar-none scroll-smooth' ref={containerRef}>
+                <div className=' flex gap-4 md:gap-6 lg:gap-8 container mx-auto px-8 overflow-x-scroll scrollbar-none scroll-smooth' ref={containerRef}>
                     {loading &&
                         loadingCardNumber.map((_, index) => {
                             return (
@@ -99,7 +101,7 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
                     }
 
                 </div>
-                <div className='w-full left-0 right-0 container mx-auto  px-2  absolute hidden lg:flex justify-between'>
+                <div className='w-full left-0 right-0 container mx-auto  px-1  absolute hidden lg:flex justify-between'>
                     <button onClick={handleScrollLeft} className='z-10 relative bg-white hover:bg-gray-100 shadow-lg text-lg p-2 rounded-full'>
                         <FaAngleLeft />
                     </button>

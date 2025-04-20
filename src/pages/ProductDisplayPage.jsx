@@ -11,220 +11,193 @@ import image2 from '../assets/Best_Prices_Offers.png'
 import image3 from '../assets/Wide_Assortment.png'
 import { pricewithDiscount } from '../utils/PriceWithDiscount'
 import AddToCartButton from '../components/AddToCartButton'
+import Loading from '../components/Loading'
 
 const ProductDisplayPage = () => {
-  const params = useParams()
-  let productId = params?.product?.split("-")?.slice(-1)[0]
-  const [data,setData] = useState({
-    name : "",
-    image : []
-  })
-  const [image,setImage] = useState(0)
-  const [loading,setLoading] = useState(false)
-  const imageContainer = useRef()
+  const params = useParams();
+  const productId = params?.product?.split("-")?.slice(-1)[0];
 
-  const fetchProductDetails = async()=>{
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [scrollIndex, setScrollIndex] = useState(0);
+
+  const fetchProductDetails = async () => {
     try {
-        const response = await Axios({
-          ...SummaryApi.getProductDetails,
-          data : {
-            productId : productId 
-          }
-        })
+      const response = await Axios({
+        ...SummaryApi.getProductDetails,
+        data: {
+          productId: productId,
+        },
+      });
 
-        const { data : responseData } = response
-
-        if(responseData.success){
-          setData(responseData.data)
-        }
+      const { data: responseData } = response;
+      if (responseData.success) {
+        setData(responseData.data);
+        setSelectedImage(responseData.data.image?.[0]);
+      }
     } catch (error) {
-      AxiosToastError(error)
-    }finally{
-      setLoading(false)
+      AxiosToastError(error);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
-  useEffect(()=>{
-    fetchProductDetails()
-  },[params])
-  
-  const handleScrollRight = ()=>{
-    imageContainer.current.scrollLeft += 100
+  useEffect(() => {
+    fetchProductDetails();
+  }, [params]);
+
+const scrollLeft = () => {
+  setScrollIndex((prev) => {
+    const newIndex = Math.max(prev - 1, 0);
+    setSelectedImage(data.image[newIndex]);
+    return newIndex;
+  });
+};
+
+const scrollRight = () => {
+  if (data?.image) {
+    setScrollIndex((prev) => {
+      const newIndex = Math.min(prev + 1, data.image.length - 1);
+      setSelectedImage(data.image[newIndex]);
+      return newIndex;
+    });
   }
-  const handleScrollLeft = ()=>{
-    imageContainer.current.scrollLeft -= 100
+};
+
+useEffect(() => {
+  if (data?.image?.[scrollIndex]) {
+    setSelectedImage(data.image[scrollIndex]);
   }
-  console.log("product data",data)
+}, [scrollIndex]);
+
+
+  if (loading) return <Loading />;
+  if (!data) return <div className="text-white p-4">Product not found.</div>;
+
+  const originalPrice = Math.round(data.price / (1 - data.discount / 100));
+
   return (
-    <section className='container mx-auto p-4 grid lg:grid-cols-2 '>
-        <div className=''>
-            <div className='bg-white lg:min-h-[65vh] lg:max-h-[65vh] rounded min-h-56 max-h-56 h-full w-full'>
-                <img
-                    src={data.image[image]}
-                    className='w-full h-full object-scale-down'
-                /> 
-            </div>
-            <div className='flex items-center justify-center gap-3 my-2'>
-              {
-                data.image.map((img,index)=>{
-                  return(
-                    <div key={img+index+"point"} className={`bg-slate-200 w-3 h-3 lg:w-5 lg:h-5 rounded-full ${index === image && "bg-slate-300"}`}></div>
-                  )
-                })
-              }
-            </div>
-            <div className='grid relative'>
-                <div ref={imageContainer} className='flex gap-4 z-10 relative w-full overflow-x-auto scrollbar-none'>
-                      {
-                        data.image.map((img,index)=>{
-                          return(
-                            <div className='w-20 h-20 min-h-20 min-w-20 scr cursor-pointer shadow-md' key={img+index}>
-                              <img
-                                  src={img}
-                                  alt='min-product'
-                                  onClick={()=>setImage(index)}
-                                  className='w-full h-full object-scale-down' 
-                              />
-                            </div>
-                          )
-                        })
-                      }
-                </div>
-                <div className='w-full -ml-3 h-full hidden lg:flex justify-between absolute  items-center'>
-                    <button onClick={handleScrollLeft} className='z-10 bg-white relative p-1 rounded-full shadow-lg'>
-                        <FaAngleLeft/>
-                    </button>
-                    <button onClick={handleScrollRight} className='z-10 bg-white relative p-1 rounded-full shadow-lg'>
-                        <FaAngleRight/>
-                    </button>
-                </div>
-            </div>
-            <div>
-            </div>
-
-            <div className='my-4  hidden lg:grid gap-3 '>
-                <div>
-                    <p className='font-semibold'>Description</p>
-                    <p className='text-base'>{data.description}</p>
-                </div>
-                <div>
-                    <p className='font-semibold'>Unit</p>
-                    <p className='text-base'>{data.unit}</p>
-                </div>
-                {
-                  data?.more_details && Object.keys(data?.more_details).map((element,index)=>{
-                    return(
-                      <div>
-                          <p className='font-semibold'>{element}</p>
-                          <p className='text-base'>{data?.more_details[element]}</p>
-                      </div>
-                    )
-                  })
-                }
-            </div>
+    <div className="bg-gray-800 text-white min-h-screen p-4">
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Left Side - Images */}
+        <div className="w-full lg:w-1/2">
+          <div className="relative border border-gray-700 rounded overflow-hidden mb-4 h-[400px] bg-black flex items-center justify-center">
+            <img
+              src={selectedImage}
+              alt="Selected"
+              className="h-full object-contain"
+            />
+            <button
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700"
+              onClick={scrollLeft}
+            >
+              ◀
+            </button>
+            <button
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700"
+              onClick={scrollRight}
+            >
+              ▶
+            </button>
+          </div>
+          <div className="flex gap-2 overflow-x-auto">
+            {data.image.map((img, idx) => (
+              <img
+                key={idx}
+                src={img}
+                alt={`preview-${idx}`}
+                className={`w-20 h-20 object-cover cursor-pointer border rounded ${
+                  selectedImage === img ? "border-blue-400" : "border-gray-600"
+                }`}
+                onClick={() => setSelectedImage(img)}
+              />
+            ))}
+          </div>
         </div>
 
+        {/* Right Side - Details and Features */}
+        <div className="w-full lg:w-1/2 overflow-y-auto space-y-6">
+          <h1 className="text-3xl font-semibold">{data.name}</h1>
+          <p className="text-gray-300">{data.description}</p>
+          <div className="flex items-center gap-4">
+            <p className="text-2xl text-green-400 font-bold">₹{data.price}</p>
+            <p className="text-lg line-through text-gray-500">
+              ₹{originalPrice}
+            </p>
+            <span className="text-red-400 font-semibold">
+              {data.discount}% off
+            </span>
+          </div>
+          <div className="space-y-2 text-gray-300">
+            <p>
+              <span className="font-semibold text-white">Dosage:</span>{" "}
+              {data.dosage}
+            </p>
+            <p>
+              <span className="font-semibold text-white">Manufacturer:</span>{" "}
+              {data.manufacturer}
+            </p>
+            <p>
+              <span className="font-semibold text-white">Stock:</span>{" "}
+              {data.stock}
+            </p>
+            <p>
+              <span className="font-semibold text-white">Expiry:</span>{" "}
+              {new Date(data.expiry_date).toLocaleDateString()}
+            </p>
+            <p>
+              <span className="font-semibold text-white">
+                Prescription Required:
+              </span>{" "}
+              {data.prescription_required ? "Yes" : "No"}
+            </p>
+          </div>
+          <div className="pt-4">
+            <AddToCartButton data={productId} />
+          </div>
 
-        <div className='p-4 lg:pl-7 text-base lg:text-lg'>
-            <p className='bg-green-300 w-fit px-2 rounded-full'>10 Min</p>
-            <h2 className='text-lg font-semibold lg:text-3xl'>{data.name}</h2>  
-            <p className=''>{data.unit}</p> 
-            <Divider/>
-            <div>
-              <p className=''>Price</p> 
-              <div className='flex items-center gap-2 lg:gap-4'>
-                <div className='border border-green-600 px-4 py-2 rounded bg-green-50 w-fit'>
-                    <p className='font-semibold text-lg lg:text-xl'>{DisplayPriceInRupees(pricewithDiscount(data.price,data.discount))}</p>
+          {/* Medikit Features */}
+          <div className="mt-8 bg-gray-800 rounded shadow-md p-4">
+            <h2 className="text-xl font-bold mb-4">Why choose Medikit?</h2>
+            <div className="space-y-4">
+              {[
+                {
+                  text: "Certified and quality-checked medicines",
+                  icon: "https://cdn-icons-png.flaticon.com/512/190/190411.png",
+                },
+                {
+                  text: "Fast home delivery nationwide",
+                  icon: "https://cdn-icons-png.flaticon.com/512/1048/1048953.png",
+                },
+                {
+                  text: "Live chat with licensed pharmacists",
+                  icon: "https://cdn-icons-png.flaticon.com/512/3062/3062634.png",
+                },
+                {
+                  text: "Secure payment and prescription uploads",
+                  icon: "https://cdn-icons-png.flaticon.com/512/747/747376.png",
+                },
+                {
+                  text: "Easy-to-use interface with order tracking",
+                  icon: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+                },
+              ].map((item, index) => (
+                <div key={index} className="flex items-center gap-4">
+                  <img
+                    src={item.icon}
+                    alt="icon"
+                    className="w-10 h-10 rounded-full object-cover bg-white p-1"
+                  />
+                  <p className="text-gray-300">{item.text}</p>
                 </div>
-                {
-                  data.discount && (
-                    <p className='line-through'>{DisplayPriceInRupees(data.price)}</p>
-                  )
-                }
-                {
-                  data.discount && (
-                    <p className="font-bold text-green-600 lg:text-2xl">{data.discount}% <span className='text-base text-neutral-500'>Discount</span></p>
-                  )
-                }
-                
-              </div>
-
-            </div> 
-              
-              {
-                data.stock === 0 ? (
-                  <p className='text-lg text-red-500 my-2'>Out of Stock</p>
-                ) 
-                : (
-                  // <button className='my-4 px-4 py-1 bg-green-600 hover:bg-green-700 text-white rounded'>Add</button>
-                  <div className='my-4'>
-                    <AddToCartButton data={data}/>
-                  </div>
-                )
-              }
-           
-
-            <h2 className='font-semibold'>Why shop from binkeyit? </h2>
-            <div>
-                  <div className='flex  items-center gap-4 my-4'>
-                      <img
-                        src={image1}
-                        alt='superfast delivery'
-                        className='w-20 h-20'
-                      />
-                      <div className='text-sm'>
-                        <div className='font-semibold'>Superfast Delivery</div>
-                        <p>Get your orer delivered to your doorstep at the earliest from dark stores near you.</p>
-                      </div>
-                  </div>
-                  <div className='flex  items-center gap-4 my-4'>
-                      <img
-                        src={image2}
-                        alt='Best prices offers'
-                        className='w-20 h-20'
-                      />
-                      <div className='text-sm'>
-                        <div className='font-semibold'>Best Prices & Offers</div>
-                        <p>Best price destination with offers directly from the nanufacturers.</p>
-                      </div>
-                  </div>
-                  <div className='flex  items-center gap-4 my-4'>
-                      <img
-                        src={image3}
-                        alt='Wide Assortment'
-                        className='w-20 h-20'
-                      />
-                      <div className='text-sm'>
-                        <div className='font-semibold'>Wide Assortment</div>
-                        <p>Choose from 5000+ products across food personal care, household & other categories.</p>
-                      </div>
-                  </div>
+              ))}
             </div>
-
-            {/****only mobile */}
-            <div className='my-4 grid gap-3 '>
-                <div>
-                    <p className='font-semibold'>Description</p>
-                    <p className='text-base'>{data.description}</p>
-                </div>
-                <div>
-                    <p className='font-semibold'>Unit</p>
-                    <p className='text-base'>{data.unit}</p>
-                </div>
-                {
-                  data?.more_details && Object.keys(data?.more_details).map((element,index)=>{
-                    return(
-                      <div>
-                          <p className='font-semibold'>{element}</p>
-                          <p className='text-base'>{data?.more_details[element]}</p>
-                      </div>
-                    )
-                  })
-                }
-            </div>
+          </div>
         </div>
-    </section>
-  )
+      </div>
+    </div>
+  );
 }
 
 export default ProductDisplayPage

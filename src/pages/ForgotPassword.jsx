@@ -60,33 +60,53 @@ const ForgotPassword = () => {
     }
 
     return (
-        <section className='w-full container mx-auto px-2'>
-            <div className='bg-white my-4 w-full max-w-lg mx-auto rounded p-7'>
-                <p className='font-semibold text-lg'>Forgot Password </p>
-                <form className='grid gap-4 py-4' onSubmit={handleSubmit}>
-                    <div className='grid gap-1'>
-                        <label htmlFor='email'>Email :</label>
-                        <input
-                            type='email'
-                            id='email'
-                            className='bg-blue-50 p-2 border rounded outline-none focus:border-primary-200'
-                            name='email'
-                            value={data.email}
-                            onChange={handleChange}
-                            placeholder='Enter your email'
-                        />
-                    </div>
-             
-                    <button disabled={!valideValue} className={` ${valideValue ? "bg-green-800 hover:bg-green-700" : "bg-gray-500" }    text-white py-2 rounded font-semibold my-3 tracking-wide`}>Send Otp</button>
+      <section className="w-full container mx-auto px-2">
+        <div className="bg-white dark:bg-gray-800 mb-4 w-full max-w-lg mx-auto rounded-lg p-7 shadow-lg dark:shadow-lg">
+          <p className="font-semibold text-lg text-gray-800 dark:text-gray-100">
+            Forgot Password
+          </p>
 
-                </form>
-
-                <p>
-                    Already have account? <Link to={"/login"} className='font-semibold text-green-700 hover:text-green-800'>Login</Link>
-                </p>
+          <form className="grid gap-4 py-4" onSubmit={handleSubmit}>
+            <div className="grid gap-1">
+              <label
+                htmlFor="email"
+                className="text-sm text-gray-700 dark:text-gray-300"
+              >
+                Email :
+              </label>
+              <input
+                type="email"
+                id="email"
+                className="bg-blue-50 dark:bg-gray-700 p-2 border rounded outline-none focus:border-primary-200 dark:focus:border-primary-300 text-gray-800 dark:text-gray-100"
+                name="email"
+                value={data.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
+              />
             </div>
-        </section>
-    )
+
+            <button
+              disabled={!valideValue}
+              className={`${
+                valideValue ? "bg-green-800 hover:bg-green-700" : "bg-gray-500"
+              } text-white py-2 rounded font-semibold my-3 tracking-wide transition duration-200 ease-in-out transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50`}
+            >
+              Send OTP
+            </button>
+          </form>
+
+          <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="font-semibold text-green-700 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300"
+            >
+              Login
+            </Link>
+          </p>
+        </div>
+      </section>
+    );
 }
 
 export default ForgotPassword

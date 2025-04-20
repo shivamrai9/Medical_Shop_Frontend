@@ -12,60 +12,75 @@ import { useGlobalContext } from '../provider/GlobalProvider'
 import AddToCartButton from './AddToCartButton'
 
 const CardProduct = ({data}) => {
-  console.log(data,"cardproduct")
-    const url = `/product/${valideURLConvert(data.name)}-${data._id}`
-    const [loading,setLoading] = useState(false)
-  
-  return (
-    <Link to={url} className='border py-2 lg:p-4 grid gap-1 lg:gap-3 min-w-36 lg:min-w-52 rounded cursor-pointer bg-white' >
-      <div className='min-h-20 w-full max-h-24 lg:max-h-32 rounded overflow-hidden'>
-            <img 
-                src={data.image[0]}
-                className='w-full h-full object-scale-down lg:scale-125'
-            />
-      </div>
-      <div className='flex items-center gap-1'>
-        <div className='rounded text-xs w-fit p-[1px] px-2 text-green-600 bg-green-50'>
-              10 min 
-        </div>
-        <div>
-            {
-              Boolean(data.discount) && (
-                <p className='text-green-600 bg-green-100 px-2 w-fit text-xs rounded-full'>{data.discount}% discount</p>
-              )
-            }
-        </div>
-      </div>
-      <div className='px-2 lg:px-0 font-medium text-ellipsis text-sm lg:text-base line-clamp-2'>
-        {data.name}
-      </div>
-      <div className='w-fit gap-1 px-2 lg:px-0 text-sm lg:text-base'>
-        {data.unit} 
-        
-      </div>
+   const {
+     _id,
+     name,
+     image,
+     price,
+     discount,
+     manufacturer,
+     dosage,
+     stock,
+     expiry_date,
+   } = data;
 
-      <div className='px-2 lg:px-0 flex items-center justify-between gap-1 lg:gap-3 text-sm lg:text-base'>
-        <div className='flex items-center gap-1'>
-          <div className='font-semibold'>
-              {DisplayPriceInRupees(pricewithDiscount(data.price,data.discount))} 
-          </div>
-          
-          
-        </div>
-        <div className=''>
-          {
-            data.stock == 0 ? (
-              <p className='text-red-500 text-sm text-center'>Out of stock</p>
-            ) : (
-              <AddToCartButton data={data} />
-            )
-          }
-            
-        </div>
-      </div>
+   const finalPrice = price - (price * discount) / 100;
+   const url = `/product/${valideURLConvert(name)}-${_id}`;
 
-    </Link>
-  )
+   return (
+     <Link
+       to={url}
+       className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-300 dark:border-white overflow-hidden shadow hover:shadow-2xl transition duration-300 cursor-pointer group"
+     >
+       {/* Product Image */}
+       <div className="h-28 w-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+         <img
+           src={image?.[0]}
+           alt={name}
+           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+         />
+       </div>
+
+       {/* Product Info */}
+       <div className="p-4 space-y-2">
+         <h2 className="text-lg font-semibold text-gray-800 dark:text-white line-clamp-2">
+           {name}
+         </h2>
+
+         {/* <p className="text-sm text-gray-500 dark:text-gray-400">
+           Manufacturer: {manufacturer}
+         </p>
+         <p className="text-sm text-gray-500 dark:text-gray-400">
+           Dosage: {dosage}
+         </p> */}
+
+         {/* Price Section */}
+         <div className="flex items-center gap-2">
+           <span className="text-xl font-bold text-blue-600 dark:text-blue-400">
+             ₹{finalPrice}
+           </span>
+           {discount > 0 && (
+             <>
+               <span className="text-sm line-through text-gray-400 dark:text-gray-600">
+                 ₹{price}
+               </span>
+               <span className="text-xs bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 px-2 py-0.5 rounded-full">
+                 {discount}% OFF
+               </span>
+             </>
+           )}
+         </div>
+
+         <AddToCartButton data={data} />
+
+         {/* Footer Info */}
+         <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 flex justify-between">
+           <span>Stock: {stock}</span>
+           <span>Exp: {new Date(expiry_date).toLocaleDateString("en-IN")}</span>
+         </div>
+       </div>
+     </Link>
+   );
 }
 
 export default CardProduct

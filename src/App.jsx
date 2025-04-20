@@ -3,7 +3,7 @@ import './App.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import toast, { Toaster } from 'react-hot-toast';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import fetchUserDetails from './utils/fetchUserDetails';
 import { setUserDetails } from './store/userSlice';
 import { setAllCategory,setAllSubCategory,setLoadingCategory } from './store/productSlice';
@@ -19,8 +19,6 @@ import { data } from 'autoprefixer';
 function App() {
   const dispatch = useDispatch()
   const location = useLocation()
-  
-
   const fetchUser = async()=>{
       const userData = await fetchUserDetails()
       console.log(userData)
@@ -68,29 +66,43 @@ console.log(responseData)
     }
   }
 
+
+  const fetchCartItems = async () => {
+    try {
+      const response = await Axios({
+        ...SummaryApi.getCartItem,
+      });
+
+      if (response.data.success) {
+        dispatch(handleAddItemCart(response.data.data)); // assuming response.data.data is the cart array
+      }
+    } catch (error) {
+      console.log("Error fetching cart items:", error);
+    }
+  };
+
   
 
   useEffect(()=>{
     fetchUser()
     fetchCategory()
     fetchSubCategory()
+    fetchCartItems(); 
   },[])
 
+
   return (
-    <GlobalProvider> 
-      <Header/>
-      <main className='min-h-[78vh]'>
-          <Outlet/>
+    <GlobalProvider>
+      
+      <Header />
+      <main className="min-h-[calc(100vh-160px)] dark:bg-gray-900">
+        <Outlet />
       </main>
-      <Footer/>
-      <Toaster/>
-      {
-        location.pathname !== '/checkout' && (
-          <CartMobileLink/>
-        )
-      }
+      <Footer />
+      <Toaster />
+      {location.pathname !== "/checkout" && <CartMobileLink />}
     </GlobalProvider>
-  )
+  );
 }
 
 export default App
