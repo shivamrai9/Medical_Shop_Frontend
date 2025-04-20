@@ -26,8 +26,6 @@ const EditCategory = ({close, fetchData,data : CategoryData,allCategories}) => {
         })
     }
     const handleSubmit = async(e)=>{
-        console.log(data)
-        // console.log(allCategories)
         e.preventDefault()
 
 
@@ -69,8 +67,6 @@ const EditCategory = ({close, fetchData,data : CategoryData,allCategories}) => {
         })
     }
 
-    console.log("category data",data)
-    console.log("category data",CategoryData)
   return (
     <section className="fixed top-0 bottom-0 left-0 right-0 p-4 bg-neutral-800 bg-opacity-60 flex items-center justify-center">
       <div className="bg-white dark:bg-gray-800 max-w-4xl w-full p-4 rounded">

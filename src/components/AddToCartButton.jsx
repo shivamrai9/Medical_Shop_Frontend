@@ -9,7 +9,6 @@ import { useSelector } from 'react-redux'
 import { FaMinus, FaPlus } from "react-icons/fa6";
 
 const AddToCartButton = ({ data }) => {
-    console.log(data, "data.......................")
     const { fetchCartItem, updateCartItem, deleteCartItem } = useGlobalContext()
     const [loading, setLoading] = useState(false)
     const cartItem = useSelector(state => state.cartItem.cart)

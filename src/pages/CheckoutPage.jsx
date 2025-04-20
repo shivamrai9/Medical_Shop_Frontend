@@ -19,6 +19,7 @@ const CheckoutPage = () => {
   const navigate = useNavigate()
 
   const handleCashOnDelivery = async() => {
+    console.log(addressList)
       try {
           const response = await Axios({
             ...SummaryApi.CashOnDeliveryOrder,
@@ -29,7 +30,6 @@ const CheckoutPage = () => {
               totalAmt :  totalPrice,
             }
           })
-
           const { data : responseData } = response
 
           if(responseData.success){

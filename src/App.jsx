@@ -21,7 +21,6 @@ function App() {
   const location = useLocation()
   const fetchUser = async()=>{
       const userData = await fetchUserDetails()
-      console.log(userData)
       dispatch(setUserDetails(userData.data))
   }
 
@@ -49,9 +48,7 @@ function App() {
             ...SummaryApi.getSubCategory
         })
         const { data : responseData } = response.data
-console.log(responseData)
         const subCategories = responseData.filter((cat) => cat.parentCategory);
-        console.log(subCategories,"subCategories")
         if(responseData){
            dispatch(
              setAllSubCategory(
