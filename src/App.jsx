@@ -14,7 +14,6 @@ import { handleAddItemCart } from './store/cartProduct'
 import GlobalProvider from './provider/GlobalProvider';
 import { FaCartShopping } from "react-icons/fa6";
 import CartMobileLink from './components/CartMobile';
-import { data } from 'autoprefixer';
 
 function App() {
   const dispatch = useDispatch()
@@ -81,10 +80,12 @@ function App() {
   
 
   useEffect(()=>{
+    
     fetchUser()
     fetchCategory()
     fetchSubCategory()
     fetchCartItems(); 
+
   },[])
 
 

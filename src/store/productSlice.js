@@ -18,7 +18,6 @@ const productSlice = createSlice({
             state.loadingCategory = action.payload
         },
         setAllSubCategory : (state,action)=>{
-            console.log(action.payload,"action")
             state.allSubCategory = [...action.payload]
         },
         

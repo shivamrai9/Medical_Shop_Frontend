@@ -17,7 +17,7 @@ const initialState = {
   subCategory: [],
   price: "",
   stock: "",
-  unit: "",
+  dosage: "",
   manufacturer: "",
   discount: "",
   prescription_required: false,

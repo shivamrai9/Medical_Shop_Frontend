@@ -36,14 +36,12 @@ const Login = () => {
     const handleSubmit = async(e)=>{
         e.preventDefault()
 
-        console.log("data",data)
         try {
             const response = await Axios({
                 ...SummaryApi.login,
                 data : data
             })
 
-            console.log("response",response)
             
             if(response.data.error){
                 toast.error(response.data.message)

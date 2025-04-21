@@ -56,7 +56,6 @@ const Register = () => {
             }
 
             if(response.data.success){
-              console.log(response.data);
                 toast.success(response.data.message)
                 setData({
                     name : "",
@@ -65,8 +64,7 @@ const Register = () => {
                     mobile : "",
                     confirmPassword : ""
                 })
-                // navigate("/login")
-                console.log(data, "data");
+                navigate("/login")
             }
 
         } catch (error) {

@@ -12,7 +12,6 @@ import fetchUserDetails from '../utils/fetchUserDetails';
 
 const Profile = () => {
     const user = useSelector(state => state.user)
-    console.log(user)
     const [openProfileAvatarEdit,setProfileAvatarEdit] = useState(false)
     const [userData,setUserData] = useState({
         name : user.name,

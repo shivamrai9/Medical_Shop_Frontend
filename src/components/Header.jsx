@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.webp'
 import Search from './Search'
 import { Link, useLocation,useNavigate } from 'react-router-dom'
 import { FaRegCircleUser } from "react-icons/fa6";
@@ -25,13 +25,20 @@ const Header = () => {
   // const { totalPrice, totalQty} = useGlobalContext()
   const [openCartSection, setOpenCartSection] = useState(false);
 
-   const [isDarkMode, setIsDarkMode] = useState(
-     localStorage.getItem("darkMode") === "true"
-   );
+   const [isDarkMode, setIsDarkMode] = useState(() => {
+     const stored = localStorage.getItem("darkMode");
+     if (stored === null) {
+       localStorage.setItem("darkMode", "true");
+       return true; // default to dark mode
+     }
+     return stored === "true";
+   });
+
    
   // Update the dark mode based on state
   useEffect(() => {
     if (isDarkMode) {
+      console.log("dark mode");
       document.documentElement.classList.add("dark");
       localStorage.setItem("darkMode", "true");
     } else {
