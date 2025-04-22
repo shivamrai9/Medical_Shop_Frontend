@@ -30,7 +30,7 @@ const CardProduct = ({data}) => {
    return (
      <Link
        to={url}
-       className="flex-shrink-0 w-[200px] sm:w-[220px] bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 group"
+       className="flex-shrink-0 w-[350px] sm:w-[220px] bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 group"
      >
        {/* Image Section */}
        <div className="h-32 sm:h-36 bg-gray-100 dark:bg-gray-800 overflow-hidden">
@@ -50,14 +50,14 @@ const CardProduct = ({data}) => {
          {/* Price Section */}
          <div className="flex items-center gap-2">
            <span className="text-base font-bold text-blue-600 dark:text-blue-400">
-             ₹{finalPrice}
+             ₹ {finalPrice}
            </span>
            {discount > 0 && (
              <>
-               <span className="text-xs line-through text-gray-400 dark:text-gray-500">
+               <span className="text-xs line-through text-gray-400 dark:text-gray-50 font-normal">
                  ₹{price}
                </span>
-               <span className="text-xs bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 px-1.5 py-0.5 rounded-full">
+               <span className="text-xs font-normal bg-green-200 dark:bg-green-600 text-green-800 dark:text-green-100 px-1.5 py-0.5 rounded-full">
                  {discount}% OFF
                </span>
              </>
@@ -68,7 +68,7 @@ const CardProduct = ({data}) => {
          <AddToCartButton data={data} />
 
          {/* Stock and Expiry */}
-         <div className="text-[10px] text-gray-500 dark:text-gray-400 mt-2 flex justify-between">
+         <div className="text-[12px] font-semibold  dark:text-gray-400 mt-2 flex justify-between">
            <span>Stock: {stock}</span>
            <span>Exp: {new Date(expiry_date).toLocaleDateString("en-IN")}</span>
          </div>

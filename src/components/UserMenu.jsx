@@ -35,55 +35,54 @@ const UserMenu = ({ close }) => {
   };
 
   return (
-    <div className="bg-gray-900 text-gray-200 dark:bg-gray-800 dark:text-gray-100 p-3 rounded-md shadow-lg w-full">
-      <div className="font-semibold text-white dark:text-gray-200 mb-1">
-        My Account
-      </div>
+    <div className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-4 rounded-md shadow-lg w-full">
+      <div className="font-semibold text-lg mb-2">My Account</div>
+
       <div className="text-sm flex items-center gap-2 mb-3">
-        <span className="max-w-52 text-ellipsis overflow-hidden whitespace-nowrap">
+        <span className="max-w-52 text-ellipsis overflow-hidden whitespace-nowrap font-medium">
           {user.name || user.mobile}
-          <span className="text-sm text-red-500 ml-1">
-            {user.role === "ADMIN" ? "(Admin)" : ""}
-          </span>
+          {user.role === "ADMIN" && (
+            <span className="text-xs text-red-500 ml-1">(Admin)</span>
+          )}
         </span>
         <Link
           onClick={handleClose}
           to="/dashboard/profile"
-          className="hover:text-blue-400 dark:hover:text-blue-300"
+          className="text-gray-500 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
         >
-          <HiOutlineExternalLink size={15} />
+          <HiOutlineExternalLink size={16} />
         </Link>
       </div>
 
-      <Divider className="bg-gray-700 dark:bg-gray-600" />
+      <Divider className="dark:bg-gray-600 my-2" />
 
-      <div className="text-sm grid gap-1 mt-2">
+      <div className="text-sm grid gap-1">
         {isAdmin(user.role) && (
           <Link
             onClick={handleClose}
             to="/dashboard/category"
-            className="px-2 py-1 rounded hover:bg-gray-800 dark:hover:bg-gray-600"
+            className="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             Category
           </Link>
         )}
 
-        {/* Optional Subcategory link */}
+        {/* Optional Subcategory Link */}
         {/* {isAdmin(user.role) && (
-      <Link
-        onClick={handleClose}
-        to="/dashboard/subcategory"
-        className="px-2 py-1 rounded hover:bg-gray-800 dark:hover:bg-gray-600"
-      >
-        Sub Category
-      </Link>
-    )} */}
+          <Link
+            onClick={handleClose}
+            to="/dashboard/subcategory"
+            className="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            Sub Category
+          </Link>
+        )} */}
 
         {isAdmin(user.role) && (
           <Link
             onClick={handleClose}
             to="/dashboard/upload-product"
-            className="px-2 py-1 rounded hover:bg-gray-800 dark:hover:bg-gray-600"
+            className="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             Upload Product
           </Link>
@@ -93,7 +92,7 @@ const UserMenu = ({ close }) => {
           <Link
             onClick={handleClose}
             to="/dashboard/product"
-            className="px-2 py-1 rounded hover:bg-gray-800 dark:hover:bg-gray-600"
+            className="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             Product
           </Link>
@@ -102,7 +101,7 @@ const UserMenu = ({ close }) => {
         <Link
           onClick={handleClose}
           to="/dashboard/myorders"
-          className="px-2 py-1 rounded hover:bg-gray-800 dark:hover:bg-gray-600"
+          className="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
         >
           My Orders
         </Link>
@@ -110,14 +109,14 @@ const UserMenu = ({ close }) => {
         <Link
           onClick={handleClose}
           to="/dashboard/address"
-          className="px-2 py-1 rounded hover:bg-gray-800 dark:hover:bg-gray-600"
+          className="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
         >
           Save Address
         </Link>
 
         <button
           onClick={handleLogout}
-          className="text-left px-2 py-1 rounded hover:bg-red-700 hover:text-white dark:hover:bg-red-600 dark:hover:text-gray-200 transition"
+          className="text-left px-2 py-1 rounded hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white transition"
         >
           Log Out
         </button>

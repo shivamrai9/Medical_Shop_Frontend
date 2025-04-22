@@ -50,7 +50,9 @@ const ProductCardAdmin = ({ data, fetchProductData }) => {
       <p className="text-ellipsis line-clamp-2 font-medium text-sm text-black dark:text-white">
         {data?.name}
       </p>
-      <p className="text-slate-500 dark:text-slate-300">{data?.unit}</p>
+      <p className="text-slate-500 dark:text-slate-300">
+        Price: ₹ {data?.price}
+      </p>
 
       <div className="grid grid-cols-2 gap-3 py-2">
         <button

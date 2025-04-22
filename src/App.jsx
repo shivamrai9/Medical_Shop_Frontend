@@ -91,10 +91,11 @@ function App() {
 
   return (
     <GlobalProvider>
-      
       <Header />
-      <main className="min-h-[calc(100vh-160px)] dark:bg-gray-900">
-        <Outlet />
+      <main className="min-h-[calc(100vh-160px)] dark:bg-gray-900  ">
+        <div className='container mx-auto py-1 max-w-7xl'>
+          <Outlet />
+        </div>
       </main>
       <Footer />
       <Toaster />

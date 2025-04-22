@@ -41,7 +41,7 @@ const Address = () => {
         <h2 className="font-semibold text-ellipsis line-clamp-1">Address</h2>
         <button
           onClick={() => setOpenAddress(true)}
-          className="border border-primary-200 dark:border-primary-500 text-primary-200 dark:text-primary-500 px-3 hover:bg-primary-200 hover:text-black py-1 rounded-full"
+          className="border border-primary-200 dark:border-primary-500 text-primary-200 dark:text-primary-500 px-3 hover:bg-primary-200 hover:text-black py-1 rounded-full font-medium"
         >
           Add Address
         </button>
@@ -51,20 +51,27 @@ const Address = () => {
         {addressList.map((address, index) => {
           return (
             <div
+              key={index}
               className={`border rounded p-3 flex gap-3 bg-white dark:bg-gray-700 ${
                 !address.status && "hidden"
               }`}
             >
               <div className="w-full">
-                <p className="text-black dark:text-white">
+                <p className="text-black dark:text-white font-medium">
                   {address.address_line}
                 </p>
-                <p className="text-black dark:text-white">{address.city}</p>
-                <p className="text-black dark:text-white">{address.state}</p>
-                <p className="text-black dark:text-white">
+                <p className="text-black dark:text-white font-medium">
+                  {address.city}
+                </p>
+                <p className="text-black dark:text-white font-medium">
+                  {address.state}
+                </p>
+                <p className="text-black dark:text-white font-medium">
                   {address.country} - {address.pincode}
                 </p>
-                <p className="text-black dark:text-white">{address.mobile}</p>
+                <p className="text-black dark:text-white font-medium">
+                  {address.mobile}
+                </p>
               </div>
               <div className="grid gap-10">
                 <button
@@ -89,14 +96,13 @@ const Address = () => {
 
         <div
           onClick={() => setOpenAddress(true)}
-          className="h-16 bg-blue-50 dark:bg-gray-800 border-2 border-dashed flex justify-center items-center cursor-pointer text-white"
+          className="h-16 bg-blue-50 dark:bg-gray-800 border-2 border-dashed flex justify-center items-center cursor-pointer text-black dark:text-white font-semibold"
         >
           Add address
         </div>
       </div>
 
       {openAddress && <AddAddress close={() => setOpenAddress(false)} />}
-
       {OpenEdit && (
         <EditAddressDetails data={editData} close={() => setOpenEdit(false)} />
       )}

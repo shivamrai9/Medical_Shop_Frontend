@@ -102,8 +102,8 @@ const ProductListPage = () => {
 
         {/* Product List */}
         <div>
-          <div className="bg-white shadow-md p-4 z-10">
-            <h3 className="font-semibold capitalize">
+          <div className="bg-gray-200 dark:bg-gray-900 shadow-md p-4 z-10">
+            <h3 className="font-semibold capitalize dark:text-white">
               {subCategoryName?.replace(/-/g, " ") || "Products"}
             </h3>
           </div>

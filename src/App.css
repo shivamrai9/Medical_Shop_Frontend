@@ -1,0 +1,8 @@
+/* Make slick dots white or gray for dark backgrounds */
+.slick-dots li button:before {
+  color: #ccc !important; /* Light gray */
+}
+
+.slick-dots li.slick-active button:before {
+  color: #fff !important; /* White for active */
+}

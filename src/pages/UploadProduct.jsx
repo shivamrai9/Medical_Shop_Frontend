@@ -120,11 +120,9 @@ const UploadProduct = () => {
   };
 
   return (
-    <section className="bg-gray-800 dark:bg-gray-900">
-      <div className="p-2 bg-white dark:bg-gray-800 shadow-md flex items-center justify-between">
-        <h2 className="font-semibold text-black dark:text-white">
-          Upload Product
-        </h2>
+    <section className="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen">
+      <div className="p-4 bg-gray-100 dark:bg-gray-800 shadow-md flex items-center justify-between">
+        <h2 className="font-semibold text-lg">Upload Product</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="grid gap-4 p-4">
@@ -144,12 +142,10 @@ const UploadProduct = () => {
 
         {/* Image Upload */}
         <div>
-          <label className="font-medium text-black dark:text-white">
-            Images
-          </label>
+          <label className="font-medium">Images</label>
           <label
             htmlFor="image"
-            className="bg-blue-50 dark:bg-gray-700 h-24 border rounded flex justify-center items-center cursor-pointer"
+            className="bg-gray-100 dark:bg-gray-700 h-24 border rounded flex justify-center items-center cursor-pointer"
           >
             <div className="text-center">
               {imageLoading ? (
@@ -157,7 +153,7 @@ const UploadProduct = () => {
               ) : (
                 <>
                   <FaCloudUploadAlt size={30} />
-                  <p className="text-black dark:text-white">Upload Image</p>
+                  <p>Upload Image</p>
                 </>
               )}
             </div>
@@ -175,7 +171,7 @@ const UploadProduct = () => {
             {imagePreview.map((url, idx) => (
               <div
                 key={idx}
-                className="relative h-20 w-20 border bg-blue-50 dark:bg-gray-700 group"
+                className="relative h-20 w-20 border bg-gray-100 dark:bg-gray-700 group"
               >
                 <img
                   src={url}
@@ -194,7 +190,6 @@ const UploadProduct = () => {
           </div>
         </div>
 
-        {/* Category Selectors */}
         <CategorySelector
           label="Category"
           options={allCategory}
@@ -204,7 +199,6 @@ const UploadProduct = () => {
           }
           removeItem={(i) => handleRemoveItem("category", i)}
         />
-
         <CategorySelector
           label="Sub Category"
           options={allSubCategory}
@@ -218,11 +212,10 @@ const UploadProduct = () => {
           removeItem={(i) => handleRemoveItem("subCategory", i)}
         />
 
-        {/* Other Inputs */}
         <Input
           label="Dosage (Unit)"
           name="unit"
-          value={data.unit}
+          value={data.dosage}
           onChange={handleChange}
           required
         />
@@ -263,7 +256,7 @@ const UploadProduct = () => {
           onChange={handleChange}
         />
 
-        <label className="flex items-center gap-2 text-black dark:text-white">
+        <label className="flex items-center gap-2">
           <input
             type="checkbox"
             name="prescription_required"
@@ -273,7 +266,7 @@ const UploadProduct = () => {
           Prescription Required
         </label>
 
-        <label className="flex items-center gap-2 text-black dark:text-white">
+        <label className="flex items-center gap-2">
           <input
             type="checkbox"
             name="publish"
@@ -283,7 +276,6 @@ const UploadProduct = () => {
           Publish
         </label>
 
-        {/* Dynamic Fields */}
         {Object.keys(data.more_details).map((key) => (
           <Input
             key={key}
@@ -299,14 +291,7 @@ const UploadProduct = () => {
           />
         ))}
 
-        {/* <div
-          onClick={() => setOpenAddField(true)}
-          className="bg-white dark:bg-gray-700 border text-center px-3 py-1 rounded w-fit cursor-pointer hover:bg-blue-100"
-        >
-          Add Fields
-        </div> */}
-
-        <button className="bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600 py-2 rounded font-semibold">
+        <button className="bg-blue-600 text-white hover:bg-blue-700 py-2 rounded font-semibold">
           Submit
         </button>
       </form>
@@ -326,34 +311,27 @@ const UploadProduct = () => {
   );
 };
 
-// Reusable Inputs
 const Input = ({ label, ...props }) => (
   <div className="grid gap-1">
-    <label
-      htmlFor={props.name}
-      className="font-medium text-black dark:text-white"
-    >
+    <label htmlFor={props.name} className="font-medium">
       {label}
     </label>
     <input
       {...props}
-      className="bg-blue-50 dark:bg-gray-700 p-2 border rounded outline-none"
+      className="bg-gray-100 dark:bg-gray-700 p-2 border rounded outline-none"
     />
   </div>
 );
 
 const TextArea = ({ label, ...props }) => (
   <div className="grid gap-1">
-    <label
-      htmlFor={props.name}
-      className="font-medium text-black dark:text-white"
-    >
+    <label htmlFor={props.name} className="font-medium">
       {label}
     </label>
     <textarea
       {...props}
       rows={3}
-      className="bg-blue-50 dark:bg-gray-700 p-2 border rounded outline-none resize-none"
+      className="bg-gray-100 dark:bg-gray-700 p-2 border rounded outline-none resize-none"
     />
   </div>
 );
@@ -368,7 +346,7 @@ const CategorySelector = ({
   const [value, setValue] = useState("");
   return (
     <div className="grid gap-1">
-      <label className="font-medium text-black dark:text-white">{label}</label>
+      <label className="font-medium">{label}</label>
       <select
         value={value}
         onChange={(e) => {
@@ -378,7 +356,7 @@ const CategorySelector = ({
           if (selectedOption) setSelected(selectedOption);
           setValue("");
         }}
-        className="bg-blue-50 dark:bg-gray-700 border p-2 rounded"
+        className="bg-gray-100 dark:bg-gray-700 border p-2 rounded"
       >
         <option value="">Select {label}</option>
         {options.map((opt) => (
@@ -390,7 +368,10 @@ const CategorySelector = ({
 
       <div className="flex flex-wrap gap-2 mt-2">
         {selected.map((item, idx) => (
-          <div key={idx} className="flex items-center gap-2">
+          <div
+            key={idx}
+            className="flex items-center gap-2 px-2 py-1 bg-gray-300 dark:bg-gray-600 rounded"
+          >
             <span>{item.name}</span>
             <IoClose
               size={16}

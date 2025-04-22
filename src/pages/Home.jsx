@@ -33,10 +33,7 @@ const valideURLConvert = (name) => {
 
 
   return (
-    <section className="bg-white dark:bg-gray-900">
-      
-      <HeroSlider />
-
+    <section className=" dark:bg-gray-900 pt-1">
       <div className="container mx-auto px-4 my-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4">
         {loadingCategory
           ? new Array(12).fill(null).map((_, index) => (
@@ -55,7 +52,7 @@ const valideURLConvert = (name) => {
                 onClick={() => handleRedirectProductListpage(cat._id, cat.name)}
               >
                 {/* Image */}
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-gray-300 dark:border-gray-600 shadow-sm bg-white dark:bg-gray-900">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-gray-400 dark:border-gray-100 shadow-sm bg-white dark:bg-gray-900">
                   <img
                     src={cat.image}
                     alt={cat.name}
@@ -64,13 +61,16 @@ const valideURLConvert = (name) => {
                 </div>
 
                 {/* Name */}
-                <p className="mt-2 text-sm text-center text-gray-800 dark:text-white line-clamp-2">
+                <p className="mt-2 text-sm font-semibold text-center text-gray-800 dark:text-white line-clamp-2">
                   {cat.name}
                 </p>
               </div>
             ))}
       </div>
+      <div className='mb-12'>
 
+      <HeroSlider />
+      </div>
       {/*** Display category product */}
       {categoryData?.map((c, index) => {
         return (

@@ -8,7 +8,8 @@ const Footer = () => {
         {/* Left Text */}
         <p className="text-gray-400 text-center lg:text-left">
           © 2025 All Rights Reserved —{" "}
-          <span className="font-semibold text-white">Shivam Rai</span>
+          {/* <span className="font-semibold text-white">Shivam Rai</span> */}
+          <span className="font-semibold text-white">Amit </span>
         </p>
 
         {/* Contact & Social Icons */}
@@ -17,7 +18,8 @@ const Footer = () => {
             href="mailto:shivamrai5476@gmail.com"
             className="hover:text-blue-400 transition duration-200 text-gray-300 text-sm underline"
           >
-            shivamrai5476@gmail.com
+            {/* shivamrai5476@gmail.com */}
+            Medikit shop online
           </a>
 
           <div className="flex items-center gap-4 text-xl">
