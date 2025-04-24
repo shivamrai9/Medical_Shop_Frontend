@@ -214,7 +214,7 @@ const UploadProduct = () => {
 
         <Input
           label="Dosage (Unit)"
-          name="unit"
+          name="dosage"
           value={data.dosage}
           onChange={handleChange}
           required

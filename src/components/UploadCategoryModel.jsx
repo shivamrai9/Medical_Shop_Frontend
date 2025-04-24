@@ -123,6 +123,7 @@ const UploadCategoryModel = ({ close, fetchData }) => {
             </select>
           </div>
 
+
           {/* Image Upload */}
           <div className="grid gap-1">
             <label className="text-black dark:text-white">Image</label>
